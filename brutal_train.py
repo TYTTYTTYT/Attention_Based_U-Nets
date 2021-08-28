@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+This is the base training program to train the specified U-Net.
+You can specify the hyper parameters below.
+Each time you run this program would train the model once.
+"""
+
 from nets import SE_UNet
 from nets import Res_SE_UNet
 from nets import Full_SE_UNet
@@ -14,18 +21,24 @@ import numpy as np
 from os.path import isfile
 
 
-
+# You can specify the hyper parameters here
 batch_size = 16
 learning_rate = 0.0001
 num_epoch = 50
+# Speficy the path to store the trained model
 best_model_path = '00010best_Res_SE_UNet_Dice_Focal_basic_modified.model'
 final_model_path = '00010final_Res_SE_UNet_Dice_Focal_basic_modified.model'
-best_eval_loss = 999999.99
-best_eval_iou = -1.0
+# Specify the model and the seeds
 model = Res_SE_UNet
 pretrained = True
+# Setting the reproducibility. If you reuiqres the reproducibility,
+# the training would be slower.
+deterministic = False
 seed = 30
-threshold = 0.5
+
+# Initialize the metrics
+best_eval_loss = 999999.99
+best_eval_iou = -1.0
 
 if __name__ == "__main__":
     # Check existency of trained models
@@ -33,9 +46,10 @@ if __name__ == "__main__":
     assert not isfile(final_model_path), f"{final_model_path} already exists!"
     
     # Set seed for reproducibility
+    if deterministic:
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
     torch.manual_seed(seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
     random.seed(seed)
     np.random.seed(seed)
 

@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+This is the training program to train the specified U-Net.
+You can specify the hyper parameters below.
+You can specify several models, loss functions and number of seeds to use
+The program will store the best model and the final model of each training
+"""
+
 from nets import SE_UNet
 from nets import Res_SE_UNet
 from nets import Full_SE_UNet
