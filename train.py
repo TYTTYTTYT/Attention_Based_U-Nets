@@ -1,15 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-This is the training program to train the specified U-Net.
-You can specify the hyper parameters below.
-You can specify several models, loss functions and number of seeds to use
-The program will store the best model and the final model of each training
-"""
-
 from nets import SE_UNet
 from nets import Res_SE_UNet
 from nets import Full_SE_UNet
 from nets import SE_UNet
+from nets import UNet
 from losses import DiceLoss, FocalLoss, Dice_Focal
 from metrics import IoU_Score
 from utils import load_data
@@ -28,8 +21,8 @@ learning_rate = 0.0001
 num_epoch = 50
 num_train = 5
 # What models to train, the pretraineds match to each model
-models = (SE_UNet, Full_SE_UNet)
-pretraineds = (False, False)
+models = (UNet,)
+pretraineds = (False,)
 # What loss functions to use
 losses = (DiceLoss, FocalLoss, Dice_Focal)
 
@@ -182,7 +175,7 @@ if __name__ == "__main__":
 
         for idx_train in range(1, num_train + 1):
             # Set the seed
-            seed = seeds[idx_train]
+            seed = seeds[idx_train - 1]
 
             # Train for each loss
             for loss in losses:
