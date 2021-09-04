@@ -101,7 +101,7 @@ def validate_path(path: str, replace: str='@') -> str:
     The invalid characters are defined in the config.py file
     '''
     for c in INVALID:
-        path.replace(c, replace)
+        path = path.replace(c, replace)
 
     return path
 
