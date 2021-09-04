@@ -1,5 +1,6 @@
 import pickle
 from config import DATA_SET
+from config import INVALID
 import matplotlib.pyplot as plt
 from skimage import measure
 import numpy as np
@@ -93,6 +94,16 @@ def plot_contour(imgs, masks, preds, H, W, thresh=0.5):
         ax.axis('off')
     
     return
+
+def validate_path(path: str, replace: str='@') -> str:
+    ''' Replace the invalid character in the path
+
+    The invalid characters are defined in the config.py file
+    '''
+    for c in INVALID:
+        path.replace(c, replace)
+
+    return path
 
 def get_imgs_from(samples):
     imgs = []

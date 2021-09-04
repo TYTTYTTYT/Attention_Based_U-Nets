@@ -6,6 +6,7 @@ from nets import UNet
 from losses import DiceLoss, FocalLoss, Dice_Focal
 from metrics import IoU_Score
 from utils import load_data
+from utils import validate_path
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -183,6 +184,8 @@ if __name__ == "__main__":
                 # Set the path to store the trained model
                 best_model_path = f'0000best_{str(model)}_{str(loss)}_{seed}.model' 
                 final_model_path = f'0000final_{str(model)}_{str(loss)}_{seed}.model'
+                best_model_path = validate_path(best_model_path)
+                final_model_path = validate_path(final_model_path)
                 
                 print(f'Models: {str(models)}, losses: {str(losses)}')
                 print(f'Train {str(model)} in turn {idx_train}/{num_train} with {str(loss)}.')
