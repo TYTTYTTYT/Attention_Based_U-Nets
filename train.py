@@ -15,17 +15,59 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 import random
 import numpy as np
 from os.path import isfile
+from argparse import ArgumentParser
+import nets
+import losses as loss
+
+parser = ArgumentParser(description="Train U-Net modes in one run")
+parser.add_argument(
+    '-b', '--batch', nargs=1, default=[16], help='Mini batch size', type=int
+)
+parser.add_argument(
+    '-l', '--learningrate', nargs=1, default=[0.0001], help='The initial learning reate', type=float
+)
+parser.add_argument(
+    '-e', '--epoch', nargs=1, default=[50], help='Number of epochs', type=int
+)
+parser.add_argument(
+    '-t', '--train', nargs=1, default=[5], help='Number of training', type=int
+)
+parser.add_argument(
+    '-m', '--models', nargs='+', help='Models to train', 
+    choices=['SE_UNet', 'Res_SE_UNet', 'Full_SE_UNet', 'UNet', 'CBAM_UNet', 'Res_CBAM_UNet', 'Full_CBAM_UNet']
+)
+parser.add_argument(
+    '-p', '--pretrain', nargs='+', help='Is the model pretrained', type=bool
+)
+parser.add_argument(
+    '-s', '--loss', nargs='+', help='Loss functions for each model', 
+    choices=['DiceLoss', 'FocalLoss', 'Dice_Focal']
+)
+args = parser.parse_args()
+
+print(args.batch)
+print(args.learningrate)
+print(args)
 
 # Training parameters
-batch_size = 16
-learning_rate = 0.0001
-num_epoch = 50
-num_train = 5
+batch_size = args.batch[0]
+learning_rate = args.learningrate[0]
+num_epoch = args.epoch[0]
+num_train = args.train[0]
+if args.models is None or args.pretrain is None or args.loss is None:
+    parser.print_help()
+    print('Incifficient parameters!')
+    exit(0)
+if len(args.train) != len(args.pretrain):
+    parser.print_help()
+    print('The number of models and pretrain must match!')
+    exit(0)
 # What models to train, the pretraineds match to each model
-models = (UNet,)
-pretraineds = (False,)
+models = tuple(map(lambda m: nets.__dict__[m], args.models))
+pretraineds = args.pretrain
 # What loss functions to use
-losses = (DiceLoss, FocalLoss, Dice_Focal)
+losses = tuple(map(lambda l: loss.__dict__[l], args.loss))
+
 
 # Train function: train the specified model with specified parameters once
 def train(model, pretrained, loss, seed, batch_size, learning_rate, num_epoch, best_model_path, final_model_path):
