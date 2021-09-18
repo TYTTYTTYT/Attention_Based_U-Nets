@@ -1,4 +1,5 @@
 # Attention Based U-Nets
+
 Here is a Python library of U-Nets with an implemented attention mechanism, including channel-wise attention (**Squeeze-and-Excitation**) and mixed attention (**Convolutional-Block-Attention-Module**). Also, we provide several loss functions for pixel-wise image segmentation. They are
 
 * **Dice loss**
@@ -14,14 +15,26 @@ The net architecture follows the design of the original U-Net, incorporates a co
 
 ---
 ## Brain Tumor Segmentation Experiment
-### 1. Download and organize the dataset from [Brain MRI segmentation](https://www.kaggle.com/mateuszbuda/lgg-mri-segmentation)
+
+We applied the attention-based U-Nets on the Brain MRI dataset to find the tumor tissues from MRI images. It is a pixel-wise image segmentation task. You can repeat our experiment by following steps. You can find our infomation [here](https://github.com/GrayardET/ML-Projects-with-Mark-Vogelsberger)
+
+### 0. Clone this resipository and cd to where it is.
+
+``` shell scripts
+git clone git@github.com:TYTTYTTYT/Attention_Based_U-Nets.git
+cd Attention_Based_U-Nets
 ```
+
+### 1. Download and organize the dataset from [Brain MRI segmentation](https://www.kaggle.com/mateuszbuda/lgg-mri-segmentation)
+
+``` shell scripts
 jupyter nbconvert --execute data_prepare.ipynb
 ```
 Note: you need to make sure your [Kaggle API](https://github.com/Kaggle/kaggle-api) is set properly.
 
 ### 2. Train the models with different loss functions.
-```
+
+``` shell scripts
 python train.py --models SE_UNet Res_SE_UNet Full_SE_UNet \
                 --pretrain False True False \
                 --loss DiceLoss FocalLoss Dice_Focal \
@@ -29,12 +42,14 @@ python train.py --models SE_UNet Res_SE_UNet Full_SE_UNet \
                 --epoch 50 \
                 --train 5 \
                 --batch 16
+```
 
-```
 For help, you can type
-```
+
+``` shell scripts
 python train.py --help
 ```
+
 ---
 ## Manual
 ### config.py
