@@ -16,7 +16,11 @@ The net architecture follows the design of the original U-Net, incorporates a co
 ---
 ## Brain Tumor Segmentation Experiment
 
-We applied the attention-based U-Nets on the Brain MRI dataset to find the tumor tissues from MRI images. It is a pixel-wise image segmentation task. You can repeat our experiment by following steps. You can find our infomation [here](https://github.com/GrayardET/ML-Projects-with-Mark-Vogelsberger)
+We applied the attention-based U-Nets on the Brain MRI dataset to find the tumor tissues from MRI images. It is a pixel-wise image segmentation task. You can repeat our experiment by following steps. You can find our infomation [here](https://github.com/GrayardET/ML-Projects-with-Mark-Vogelsberger).
+
+
+![Brain Tumor Segmentation Samples](Images/Brain_Tumor_Segmentation.png)
+
 
 ### 0. Clone this resipository and cd to where it is.
 
